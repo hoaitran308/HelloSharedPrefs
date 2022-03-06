@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">HelloSharedPrefs</string>
+    <string name="btn_red">RED</string>
+    <string name="btn_blue">BLUE</string>
+    <string name="btn_black">BLACK</string>
+    <string name="btn_green">GREEN</string>
+    <string name="btn_count">COUNT</string>
+    <string name="btn_clear">CLEAR ALL</string>
+    <string name="clear_notify">ALL DATA IS CLEARED</string>
+</resources>
