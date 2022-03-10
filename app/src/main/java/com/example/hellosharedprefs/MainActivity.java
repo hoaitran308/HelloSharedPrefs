@@ -9,8 +9,8 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-
     private static final String HELLO_SHARED_PREFS = "HELLO_SHARED_PREFS";
+    private static final String CURRENT_COLOR_KEY = "CURRENT_COLOR_KEY";
     private static final String BLACK_KEY = "BLACK_KEY";
     private static final String RED_KEY = "RED_KEY";
     private static final String BLUE_KEY = "BLUE_KEY";
@@ -31,6 +31,9 @@ public class MainActivity extends AppCompatActivity {
         sharedPref = getSharedPreferences(HELLO_SHARED_PREFS, MODE_PRIVATE);
 
         number = findViewById(R.id.number);
+
+        currentColorKey = sharedPref.getString(CURRENT_COLOR_KEY, HELLO_SHARED_PREFS);
+        onBtnColorClick(currentColorKey);
 
         TextView btnBlack = findViewById(R.id.btnBlack);
         TextView btnRed = findViewById(R.id.btnRed);
@@ -53,12 +56,13 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.clear();
         editor.apply();
-        currentColorKey = "";
+        currentColorKey = HELLO_SHARED_PREFS;
         number.setText(getResources().getString(R.string.clear_notify));
+        number.setBackgroundColor(getColorId(currentColorKey));
     }
 
     private void onBtnCountClick() {
-        if (currentColorKey.isEmpty()) {
+        if (currentColorKey.equals(HELLO_SHARED_PREFS)) {
             return;
         }
 
@@ -74,6 +78,23 @@ public class MainActivity extends AppCompatActivity {
     private void onBtnColorClick(String COLOR_KEY) {
         currentColorKey = COLOR_KEY;
         int numberInSharedPref = sharedPref.getInt(COLOR_KEY, 0);
+
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(CURRENT_COLOR_KEY, COLOR_KEY);
+        editor.apply();
+
         number.setText(String.valueOf(numberInSharedPref));
+        number.setBackgroundColor(getColorId(COLOR_KEY));
+
+    }
+
+    private int getColorId(String COLOR_KEY) {
+        switch (COLOR_KEY) {
+            case BLACK_KEY: return getResources().getColor(R.color.black);
+            case RED_KEY: return getResources().getColor(R.color.red);
+            case BLUE_KEY: return getResources().getColor(R.color.blue);
+            case GREEN_KEY: return getResources().getColor(R.color.green);
+            default: return getResources().getColor(R.color.white);
+        }
     }
 }
